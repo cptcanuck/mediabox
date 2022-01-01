@@ -1,0 +1,61 @@
+---
+version: '3.3'
+services:
+  plex:
+    container_name: plex
+    network_mode: host
+    environment:
+      - TZ=America/New_York
+      - PUID=1001
+      - PGID=1001
+      - VERSION=docker
+    ports:
+      - '32400:32400/tcp'
+    volumes:
+      - '/home/media/mediabox/plex/config:/config'
+      - '/data/incoming/plex/tmp:/transcode'
+      - '/data:/data'
+      - '/data/TV:/tv'
+      - '/data/movies:/movies'
+    image: plexinc/pms-docker
+  deluge:
+    container_name: deluge
+    network_mode: host
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - '/home/media/mediabox/deluge/config:/config'
+      - '/data/incoming/deluge:/downloads'
+    restart: unless-stopped
+    image: ghcr.io/linuxserver/deluge
+  sonarr:
+    container_name: sonarr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    ports:
+      - '8989:8989'
+    volumes:
+      - '/home/media/mediabox/sonarr/config:/config'
+      - '/data/TV:/tv'
+      - '/data/incoming/deluge/done:/downloads'
+    restart: unless-stopped
+    image: ghcr.io/linuxserver/sonarr
+  jackett:
+    image: lscr.io/linuxserver/jackett
+    container_name: jackett
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+      - AUTO_UPDATE=true 
+    volumes:
+      - /home/media/mediabox/jackett/config:/config
+      - /home/media/mediabox/jackett/torrents:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+
