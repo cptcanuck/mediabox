@@ -51,11 +51,31 @@ services:
       - PUID=1001
       - PGID=1001
       - TZ=America/New_York
-      - AUTO_UPDATE=true 
+      - AUTO_UPDATE=true
     volumes:
       - /home/media/mediabox/jackett/config:/config
       - /home/media/mediabox/jackett/torrents:/downloads
     ports:
       - 9117:9117
     restart: unless-stopped
-
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - /home/media/mediabox/radarr/config:/config
+      - /data/incoming/done:/downloads/done
+      - /data/movies:/movies
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+  nginx:
+    ports:
+      - '80:80'
+    container_name: nginx_static
+    volumes:
+      - /home/media/mediabox/nginx/html:/usr/share/nginx/html
+    image: nginx
