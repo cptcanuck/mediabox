@@ -41,7 +41,7 @@ services:
     volumes:
       - '/home/media/mediabox/sonarr/config:/config'
       - '/data/TV:/tv'
-      - '/data/incoming/deluge/done:/downloads'
+      - '/data/incoming/deluge/done:/downloads/done'
     restart: unless-stopped
     image: ghcr.io/linuxserver/sonarr
   jackett:
@@ -67,15 +67,21 @@ services:
       - TZ=America/New_York
     volumes:
       - /home/media/mediabox/radarr/config:/config
-      - /data/incoming/done:/downloads/done
+      - /data/incoming/deluge/done:/downloads/done
       - /data/movies:/movies
     ports:
       - 7878:7878
     restart: unless-stopped
-  nginx:
-    ports:
-      - '80:80'
-    container_name: nginx_static
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
     volumes:
-      - /home/media/mediabox/nginx/html:/usr/share/nginx/html
-    image: nginx
+      - /home/media/mediabox/heimdall/config:/config
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
