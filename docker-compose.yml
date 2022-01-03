@@ -18,6 +18,7 @@ services:
       - '/data/TV:/tv'
       - '/data/movies:/movies'
     image: plexinc/pms-docker
+    restart: unless-stopped
   deluge:
     container_name: deluge
     network_mode: host
