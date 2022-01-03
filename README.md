@@ -46,6 +46,18 @@ On my system, the `fstab` bits are:
 
 # Operations
 
+#### Ports
+
+||Service||Port||
+|Deluge|8112|
+|Jackett|9117|
+|Plex|32400|
+|Radarr|7878|
+|Sonarr|8989|
+|Heimdall|80/443|
+
+For Plex to work, you need to forward the port from the internet to the container on your router.
+
 #### Starting things up
 
 `docker-compose up -d`
