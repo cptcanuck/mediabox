@@ -62,7 +62,7 @@ For Plex to work, you need to forward the port from the internet to the containe
 
 ### Updating containers
 
-```
+``` text
 docker-compose pull
 docker-compose up -d
 ```
