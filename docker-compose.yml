@@ -86,3 +86,15 @@ services:
       - 80:80
       - 443:443
     restart: unless-stopped
+  overseerr:
+    image: lscr.io/linuxserver/overseerr
+    container_name: overseerr
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=America/New_York
+    volumes:
+      - /home/media/mediabox/overseer/config:/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
