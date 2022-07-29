@@ -42,6 +42,7 @@ services:
     volumes:
       - '/home/media/mediabox/sonarr/config:/config'
       - '/data/TV:/tv'
+      - '/data/TV2:/tv2'
       - '/data/incoming/deluge/done:/downloads/done'
     restart: unless-stopped
     image: ghcr.io/linuxserver/sonarr
